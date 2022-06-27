@@ -83,3 +83,10 @@ class DNASequence:
             start += 1
             end += 1
         return matchIndices
+
+    @property
+    def length(self):
+        return len(self.sequence)
+
+    def __len__(self):
+        return self.length
