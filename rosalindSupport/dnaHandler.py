@@ -1,3 +1,5 @@
+import re
+import typing
 
 class DNASequence:
 
@@ -54,3 +56,30 @@ class DNASequence:
     @property
     def g(self):
         return self._baseCounts["G"]
+
+    def hammingDistance(self, other:["DNASequence", str]) -> int:
+        """
+        Measures the edit distance between the sequence object and another sequence
+        :param other: The sequence to compare. Must be the same length. Can be either a string or a DNAsequence object
+        :return: Integer indicating the edit distance between the two sequences
+        """
+        otherSeq = str(other)
+        if len(self.sequence) != len(otherSeq):
+            raise ValueError("Both sequences must be of the same length")
+        mismatches = 0
+        for selfBase, otherBase in zip(self.sequence, otherSeq):
+            if selfBase != otherBase:
+                mismatches += 1
+        return mismatches
+
+    def findSubstring(self, substring:str) -> typing.List[int]:
+        matchIndices = []
+        start = 0
+        end = start + len(substring)
+        while end < len(self.sequence):
+            sliceText = self.sequence[start:end]
+            if sliceText == substring:
+                matchIndices.append(start + 1)
+            start += 1
+            end += 1
+        return matchIndices
